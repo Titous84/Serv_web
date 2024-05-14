@@ -109,6 +109,26 @@ router.delete('/:tacheId', tachesController.supprimerTache);
 
 /**
  * @swagger
+ * /api/taches/toggle-complete/{tacheId}:
+ *   put:
+ *     summary: Basculer l'état de complétion d'une tâche
+ *     parameters:
+ *       - in: path
+ *         name: tacheId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID de la tâche dont l'état de complétion doit être basculé
+ *     responses:
+ *       200:
+ *         description: État de la tâche basculé avec succès
+ *       404:
+ *         description: Tâche non trouvée
+ */
+router.put('/toggle-complete/:tacheId', tachesController.basculerCompleteTache);
+
+/**
+ * @swagger
  * /api/taches/{tacheId}/sous-taches:
  *   get:
  *     summary: Obtenir toutes les sous-tâches associées à une tâche spécifique

@@ -29,7 +29,12 @@
  *           type: string
  *           description: Le mot de passe de l'utilisateur, stocké sous forme hachée
  */
-const pool = require('../config/db.js');
+
+// Ancienne connexion à MySQL
+const pool = require("../config/db");
+// Nouvelle connexion à PostGreSQL
+// const sql = require("../config/pg_db");
+
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 

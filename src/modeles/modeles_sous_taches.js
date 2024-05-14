@@ -21,7 +21,11 @@
  *           type: boolean
  *           description: Indique si la sous-tâche est complétée ou non
  */
-const pool = require('../config/db.js');
+
+// Ancienne connexion à MySQL
+const pool = require("../config/db");
+// Nouvelle connexion à PostGreSQL
+// const sql = require("../config/pg_db");
 
 const SousTache = {
   // Créer une nouvelle sous-tâche
@@ -66,8 +70,8 @@ const SousTache = {
 
   basculerCompleteSousTache: async (req, res) => {
     try {
-      const { id } = req.params; // Assurez-vous que 'id' correspond au paramètre nommé dans votre route
-      console.log(req.params); // Ajoutez cette ligne dans votre méthode pour voir ce qui est passé.
+      const { id } = req.params; 
+      console.log(req.params); 
       if (!id) {
         return res.status(400).json({ error: "L'ID de la sous-tâche est requis pour basculer son état." });
       }

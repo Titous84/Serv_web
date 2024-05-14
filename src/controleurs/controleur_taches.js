@@ -63,6 +63,20 @@ const controleurTaches = {
     } catch (error) {
       res.status(500).json({ error: "Erreur lors de la suppression de la tâche." });
     }
+  },
+  
+  // Bascule l'état d'une tâche spécifique
+  basculerCompleteTache: async (req, res) => {
+    try {
+      const { tacheId } = req.params;
+      if (!tacheId) {
+        return res.status(400).json({ error: "L'ID de la tâche est requis pour basculer son état." });
+      }
+      await Tache.toggleComplete(tacheId);
+      res.status(200).json({ message: 'Statut de la tâche basculé avec succès' });
+    } catch (error) {
+      res.status(500).json({ error: "Erreur lors du basculement du statut de la tâche." });
+    }
   }
 };
 

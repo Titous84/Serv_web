@@ -61,11 +61,11 @@ const controleurSousTaches = {
   
   basculerCompleteSousTache: async (req, res) => {
     try {
-      const { sousTacheId } = req.params;
-      if (!sousTacheId) {
+      const { id } = req.params;
+      if (!id) {
         return res.status(400).json({ error: "L'ID de la sous-tâche est requis pour basculer son état." });
       }
-      await SousTache.toggleComplete(sousTacheId);
+      await SousTache.toggleComplete(id);
       res.status(200).json({ message: 'Statut de la sous-tâche basculé avec succès' });
     } catch (error) {
       res.status(500).json({ error: "Erreur lors du basculement du statut de la sous-tâche." });

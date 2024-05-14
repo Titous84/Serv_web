@@ -35,6 +35,48 @@
     }
   ],
   "paths": {
+    "/taches": {
+      "get": {
+        "tags": ["tâches"],
+        "summary": "Récupère une liste de toutes les tâches",
+        "description": "Retourne une liste de toutes les tâches",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Liste des tâches récupérée avec succès"
+          },
+          "404": {
+            "description": "Tâches non trouvées"
+          }
+        }
+      },
+      "post": {
+        "tags": ["tâches"],
+        "summary": "Crée une nouvelle tâche",
+        "description": "Crée une nouvelle tâche avec les données fournies",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objet tâche qui doit être ajouté",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Tache"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Tâche créée"
+          },
+          "default": {
+            "description": "Erreur inattendue"
+          }
+        }
+      }
+    },
     "/taches/{tacheId}": {
       "get": {
         "tags": ["tâches"],
@@ -61,65 +103,11 @@
             "description": "Tâche non trouvée"
           }
         }
-      }
-    },
-    "TacheDetail": {
-      "type": "object",
-      "properties": {
-        "id": { "type": "integer", "format": "int64" },
-        "titre": { "type": "string" },
-        "description": { "type": "string" },
-        "date_debut": { "type": "string", "format": "date" },
-        "date_echeance": { "type": "string", "format": "date" },
-        "complete": { "type": "boolean" },
-        "sous_taches": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SousTache"
-          }
-        }
-      }
-    },
-    "SousTache": {
-      "type": "object",
-      "properties": {
-        "id": { "type": "integer", "format": "int64" },
-        "titre": { "type": "string" },
-        "complete": { "type": "boolean" }
-      }
-    },    
-      "post": {
-        "tags": ["tâches"],
-        "summary": "Ajoute une nouvelle tâche",
-        "description": "Crée une nouvelle tâche avec les données fournies",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Objet tâche qui doit être ajouté",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Tache"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Tâche créée"
-          },
-          "default": {
-            "description": "Erreur inattendue"
-          }
-        }
-      }
-    },
-    "/taches/{tacheId}": {
+      },
       "put": {
         "tags": ["tâches"],
-        "summary": "Mise à jour d'une tâche",
-        "description": "Mise à jour d'une tâche spécifiée par son ID",
+        "summary": "Met à jour une tâche spécifique par son ID",
+        "description": "Met à jour une tâche spécifiée par son ID",
         "produces": ["application/json"],
         "parameters": [
           {
@@ -143,6 +131,175 @@
         "responses": {
           "200": {
             "description": "Tâche mise à jour"
+          },
+          "default": {
+            "description": "Erreur inattendue"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["tâches"],
+        "summary": "Supprime une tâche spécifique par son ID",
+        "description": "Supprime une tâche spécifiée par son ID",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "tacheId",
+            "in": "path",
+            "description": "ID de la tâche à supprimer",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tâche supprimée"
+          },
+          "default": {
+            "description": "Erreur inattendue"
+          }
+        }
+      }
+    },
+    "/taches/{tacheId}/sous-taches": {
+      "get": {
+        "tags": ["sous-tâches"],
+        "summary": "Obtenir toutes les sous-tâches associées à une tâche spécifique",
+        "description": "Retourne toutes les sous-tâches associées à une tâche spécifique",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "tacheId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID unique de la tâche"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des sous-tâches récupérée avec succès"
+          },
+          "404": {
+            "description": "Sous-tâches non trouvées"
+          }
+        }
+      },
+      "post": {
+        "tags": ["sous-tâches"],
+        "summary": "Crée une sous-tâche pour une tâche spécifique",
+        "description": "Crée une sous-tâche avec les données fournies pour une tâche spécifique",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objet sous-tâche qui doit être ajouté",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SousTache"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Sous-tâche créée"
+          },
+          "default": {
+            "description": "Erreur inattendue"
+          }
+        }
+      }
+    },
+    "/taches/sous-taches/{id}": {
+      "patch": {
+        "tags": ["sous-tâches"],
+        "summary": "Met à jour une sous-tâche spécifique par son ID",
+        "description": "Met à jour une sous-tâche spécifiée par son ID",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la sous-tâche à mettre à jour",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Mise à jour de l'objet sous-tâche",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SousTache"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sous-tâche mise à jour"
+          },
+          "default": {
+            "description": "Erreur inattendue"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["sous-tâches"],
+        "summary": "Supprime une sous-tâche spécifique par son ID",
+        "description": "Supprime une sous-tâche spécifiée par son ID",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la sous-tâche à supprimer",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sous-tâche supprimée"
+          },
+          "default": {
+            "description": "Erreur inattendue"
+          }
+        }
+      }
+    },
+    "/taches/sous-taches/toggle-complete/{id}": {
+      "put": {
+        "tags": ["sous-tâches"],
+        "summary": "Bascule l'état de complétion d'une sous-tâche",
+        "description": "Met à jour le statut d'une sous-tâche spécifiée par son ID",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la sous-tâche à mettre à jour",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Mise à jour de l'objet sous-tâche",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SousTacheStatut"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Statut de la sous-tâche mis à jour"
           },
           "default": {
             "description": "Erreur inattendue"
@@ -178,6 +335,35 @@
         }
       }
     },
+    "/utilisateurs/cle-api": {
+      "post": {
+        "tags": ["utilisateurs"],
+        "summary": "Renouvelle la clé API d'un utilisateur",
+        "description": "Génère une nouvelle clé API pour un utilisateur existant en fournissant son adresse courriel et son mot de passe",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Données de l'utilisateur pour renouveler la clé API",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UtilisateurCleAPI"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Clé API renouvelée"
+          },
+          "default": {
+            "description": "Erreur inattendue"
+          }
+        }
+      }
+    }
+  },
   "definitions": {
     "Tache": {
       "type": "object",
@@ -221,6 +407,75 @@
         },
         "password": {
           "type": "string"
+        }
+      }
+    },
+    "UtilisateurCleAPI": {
+      "type": "object",
+      "required": ["courriel", "password"],
+      "properties": {
+        "courriel": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "SousTache": {
+      "type": "object",
+      "required": ["titre"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "titre": {
+          "type": "string"
+        },
+        "complete": {
+          "type": "boolean"
+        }
+      }
+    },
+    "SousTacheStatut": {
+      "type": "object",
+      "required": ["complete"],
+      "properties": {
+        "complete": {
+          "type": "boolean"
+        }
+      }
+    },
+    "TacheDetail": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "titre": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "date_debut": {
+          "type": "string",
+          "format": "date"
+        },
+        "date_echeance": {
+          "type": "string",
+          "format": "date"
+        },
+        "complete": {
+          "type": "boolean"
+        },
+        "sous_taches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SousTache"
+          }
         }
       }
     }

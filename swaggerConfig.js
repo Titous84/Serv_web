@@ -54,7 +54,7 @@ const swaggerOptions = {
       }
     ]
   },
-  apis: ['./src/routes/*.js'], 
+  apis: ['./src/routes/*.js'], // Chemin mis à jour pour inclure tous les fichiers de routes
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
