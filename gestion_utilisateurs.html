@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des Utilisateurs</title>
+</head>
+<body>
+    <h1>Gestion des Utilisateurs</h1>
+    <div>
+        <h2>Créer un Nouvel Utilisateur</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Mot de passe">
+        <input type="text" id="title" placeholder="Titre">
+        <input type="date" id="startDate" placeholder="Date de début">
+        <button onclick="createUser()">Créer Utilisateur</button>
+    </div>
+    
+    <div>
+        <h2>Régénérer Clé API</h2>
+        <input type="email" id="emailKey" placeholder="Email pour nouvelle clé">
+        <input type="password" id="passwordKey" placeholder="Mot de passe">
+        <button onclick="regenerateApiKey()">Régénérer Clé</button>
+    </div>
+
+    <script src="gestion_utilisateurs.js"></script>
+</body>
+</html>
