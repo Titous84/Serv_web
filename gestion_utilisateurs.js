@@ -1,15 +1,15 @@
 function createUser() {
-    const email = document.getElementById('email').value;
+    const courriel = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-    const title = document.getElementById('title').value; 
-    const startDate = document.getElementById('startDate').value; 
+    const nom = document.getElementById('nom').value; 
+    const prenom = document.getElementById('prenom').value; 
 
-    fetch('http://localhost:3000/api/utilisateurs', {
+    fetch('http://localhost:3000/api/utilisateurs/creer', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password, title, startDate }) 
+        body: JSON.stringify({ courriel, password, nom, prenom }) 
     })
     .then(response => response.json())
     .then(data => {
@@ -23,15 +23,15 @@ function createUser() {
 }
 
 function regenerateApiKey() {
-    const email = document.getElementById('emailKey').value;
+    const courriel = document.getElementById('emailKey').value;
     const password = document.getElementById('passwordKey').value;
 
-    fetch('http://localhost:3000/api/utilisateurs/new-apikey', {
+    fetch('http://localhost:3000/api/utilisateurs/nouvelle-cle-api', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ courriel, password })
     })
     .then(response => response.json())
     .then(data => {
